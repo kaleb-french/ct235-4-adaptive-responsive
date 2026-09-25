@@ -52,21 +52,76 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
     MyHomePage({super.key, required this.title});
 
-  Destination dest = Destination(name: "Fiji", icon: Icons.flight);
+    final List<Destination> destinations = [
+      Destination(name: "Home", icon: Icons.home),
+      Destination(name: "Explore", icon: Icons.explore),
+      Destination(name: "Bookings", icon: Icons.book),
+      Destination(name: "Profile", icon: Icons.person),
+    ];
   final String title;
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
 
+    if (width < 600) {
+      return MobileLayout(destinations: destinations);
+    } else {
+      return DesktopLayout(destinations: destinations);
+    }
+  }
+}
+class MobileLayout extends StatelessWidget {
+  final List<Destination> destinations;
+
+  const MobileLayout({
+    super.key,
+    required this.destinations,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
-      ),
-      body: Center( child: Text(dest.name,
-        style: Theme.of(context).textTheme.displayLarge,
-          ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: destinations.map((destination) {
+            return Expanded(
+              child: ListTile(
+                leading: Icon(destination.icon),
+              ),
+            );
+          }).toList(),
         ),
-      );
+      ),
+    );
+  }
+}
+class DesktopLayout extends StatelessWidget {
+  final List<Destination> destinations;
+
+  const DesktopLayout({
+    super.key,
+    required this.destinations,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        children: [
+          SizedBox(
+            width: 200,
+            child: Column(
+              children: destinations.map((destination) {
+                return ListTile(
+                  leading: Icon(destination.icon),
+                  title: Text(destination.name),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
