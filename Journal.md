@@ -9,3 +9,6 @@ resolution and orientation are the big ones in my mind. A phone/mobile view will
 
 Phase 3-
 mediaQuery returns screen size and etc, while the layout builder is giving widget area or atleast the usable space for them.
+
+Phase 4-
+Using themeData you can keep the global styling with copyWith and just change what you need to, If you are hard coding you cant use that copyWith to keep the global sytling so you'd have to do it all manually.
