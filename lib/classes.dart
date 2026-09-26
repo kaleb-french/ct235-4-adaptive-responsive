@@ -17,5 +17,9 @@ class TravelDeal{
   String description;
   bool isPremium;
   //c
-  TravelDeal(this.title, this.price, this.description, this.isPremium);
+  TravelDeal({
+      required this.title,
+      required this.price,
+      required this.description,
+      required this.isPremium});
 }

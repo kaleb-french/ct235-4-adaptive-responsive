@@ -82,6 +82,7 @@ class MobileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: DealDashboard(),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: destinations.map((destination) {
@@ -120,7 +121,93 @@ class DesktopLayout extends StatelessWidget {
               }).toList(),
             ),
           ),
+        Expanded(
+        child: DealDashboard(),
+        )
         ],
+      ),
+    );
+  }
+}
+class DealDashboard extends StatelessWidget{
+  DealDashboard({super.key});
+
+  final List<TravelDeal> deals = [
+    TravelDeal(
+      title: "Paris Getaway",
+      price: 1299.99,
+      description: "A seven-day trip to Paris.",
+      isPremium: true,
+    ),
+    TravelDeal(
+      title: "Beach Vacation",
+      price: 899.99,
+      description: "Relax on a tropical beach.",
+      isPremium: false,
+    ),
+    TravelDeal(
+      title: "Mountain Adventure",
+      price: 749.99,
+      description: "Explore beautiful mountain scenery.",
+      isPremium: false,
+    ),
+    TravelDeal(
+      title: "Tokyo Experience",
+      price: 1599.99,
+      description: "Experience Tokyo and Japanese culture.",
+      isPremium: true,
+    ),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 400) {
+            return GridView.count(
+              crossAxisCount: 2,
+              children: deals.map((deal) {
+                return DealCard(deal: deal);
+              }).toList(),
+            );
+          } else {
+            return ListView(
+              children: deals.map((deal) {
+                return DealCard(deal: deal);
+              }).toList(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+class DealCard extends StatelessWidget {
+  final TravelDeal deal;
+
+  const DealCard({
+    super.key,
+    required this.deal,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              deal.title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              "\$${deal.price.toStringAsFixed(2)}",
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
       ),
     );
   }
